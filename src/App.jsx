@@ -1,12 +1,26 @@
 import React from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import img1 from './assets/projectphoto/1.jpg';
 import img2 from './assets/projectphoto/2.jpg';
 import img3 from './assets/projectphoto/3.jpg';
 import img4 from './assets/projectphoto/4.jpg';
-import img5 from './assets/projectphoto/5.jpg';
+import int1 from './assets/projectinterior/1.jpg';
+import int2 from './assets/projectinterior/2.jpg';
+import int3 from './assets/projectinterior/3.jpg';
+import int4 from './assets/projectinterior/4.jpg';
 
-const ProjectEntry = ({ initial, title, location, image, altText, icon }) => (
-  <section className="grid grid-cols-12 gap-0 items-start group cursor-pointer w-full mb-5 last:mb-5">
+const ProjectEntry = ({ initial, title, location, image, altText, icon, index }) => (
+  <motion.section 
+    initial={{ opacity: 0, x: -30 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: "-10%" }}
+    transition={{ 
+      duration: 0.8, 
+      delay: index * 0.1,
+      ease: [0.21, 0.47, 0.32, 0.98] 
+    }}
+    className="grid grid-cols-12 gap-0 items-start group cursor-pointer w-full mb-12 last:mb-5"
+  >
     {/* Left margin indentation */}
     <div className="hidden md:block md:col-span-2"></div>
 
@@ -24,28 +38,31 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon }) => (
     </div>
 
     {/* Image column - 4 columns wide */}
-    <div className="col-span-12 md:col-span-4 aspect-[1.3/1] overflow-hidden">
-      <img
+    <div className="col-span-12 md:col-span-4 aspect-[1.3/1] overflow-hidden bg-neutral-100">
+      <motion.img
+        whileHover={{ scale: 1.05 }}
+        transition={{ duration: 0.6, ease: [0.33, 1, 0.68, 1] }}
         src={image}
         alt={title}
-        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.025]"
+        className="w-full h-full object-cover"
         title={altText}
       />
     </div>
 
     {/* Right large margin */}
     <div className="hidden md:block md:col-span-4"></div>
-  </section>
+  </motion.section>
 );
 
 const App = () => {
+  const [activeCategory, setActiveCategory] = React.useState('ARCHITECTURE');
   const [activeSection, setActiveSection] = React.useState(null);
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);
   };
 
-  const projects = [
+  const architectureProjects = [
     {
       icon: 'layers',
       title: 'GASTRONOMY OPEN ECOSYSTEM',
@@ -76,17 +93,60 @@ const App = () => {
     }
   ];
 
+  const interiorProjects = [
+    {
+      icon: 'chairs',
+      title: 'GASTRONOMY INTERIOR',
+      location: 'SAN SEBASTIAN, SPAIN',
+      image: int1,
+      altText: 'Gastronomy Interior'
+    },
+    {
+      initial: 'L',
+      title: 'RESIDENTIAL LOFT',
+      location: 'NEW YORK, UNITED STATES',
+      image: int2,
+      altText: 'Residential Loft'
+    },
+    {
+      initial: 'N',
+      title: 'NORDIC EXHIBITION',
+      location: 'MAGNOR, NORWAY',
+      image: int3,
+      altText: 'Nordic Interior'
+    },
+    {
+      initial: 'A',
+      title: 'ATELIER LOUNGE',
+      location: 'LE BRASSUS, SWITZERLAND',
+      image: int4,
+      altText: 'Atelier Lounge'
+    }
+  ];
+
+  const projects = activeCategory === 'ARCHITECTURE' ? architectureProjects : interiorProjects;
+
   return (
     <div className="bg-white min-h-screen">
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-16 py-8">
         <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black select-none">Tashi Dhendup</div>
         <div className="hidden lg:flex gap-14 items-center">
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black border-b border-black pb-1 active" href="#">ARCH</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">INTERIORS</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">LANDSCAPE</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">PLANNING</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">PRODUCTS</a>
+          <a
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ARCHITECTURE' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => setActiveCategory('ARCHITECTURE')}
+          >
+            ARCHITECTURE
+          </a>
+          <a
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'INTERIORS' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => setActiveCategory('INTERIORS')}
+          >
+            INTERIORS
+          </a>
+          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">BLOG</a>
+          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">ABOUT</a>
+          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">CONTACT ME</a>
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-neutral-500 cursor-pointer text-[20px] font-light">search</span>
@@ -95,10 +155,23 @@ const App = () => {
       </nav>
 
       {/* Main Content Canvas */}
-      <main className="pt-28 px-16 pb-24 max-w-[1920px] mx-auto">
-        {projects.map((project, index) => (
-          <ProjectEntry key={index} {...project} />
-        ))}
+      <main className="pt-28 px-16 pb-24 max-w-[1920px] mx-auto min-h-[60vh]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ 
+              duration: 0.5, 
+              ease: [0.22, 1, 0.36, 1] 
+            }}
+          >
+            {projects.map((project, index) => (
+              <ProjectEntry key={`${activeCategory}-${index}`} index={index} {...project} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       {/* Footer */}
@@ -202,7 +275,7 @@ const App = () => {
         </div>
         <div className="mt-48 flex flex-col items-center gap-4 text-center">
           <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black">Tashi Dhendup</div>
-          <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400">© 2024 TASHI DHENDUP</div>
+          <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400">© 2026 TASHI DHENDUP</div>
         </div>
       </footer>
     </div>
