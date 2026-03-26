@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import heroImg from './assets/hero.png';
+import profileImg from './assets/myphoto/tashib.webp';
 import img1 from './assets/projectphoto/1.jpg';
 import img2 from './assets/projectphoto/2.jpg';
 import img3 from './assets/projectphoto/3.jpg';
@@ -10,14 +12,14 @@ import int3 from './assets/projectinterior/3.jpg';
 import int4 from './assets/projectinterior/4.jpg';
 
 const ProjectEntry = ({ initial, title, location, image, altText, icon, index }) => (
-  <motion.section 
+  <motion.section
     initial={{ opacity: 0, x: -30 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true, margin: "-10%" }}
-    transition={{ 
-      duration: 0.8, 
+    transition={{
+      duration: 0.8,
       delay: index * 0.1,
-      ease: [0.21, 0.47, 0.32, 0.98] 
+      ease: [0.21, 0.47, 0.32, 0.98]
     }}
     className="grid grid-cols-12 gap-0 items-start group cursor-pointer w-full mb-12 last:mb-5"
   >
@@ -54,6 +56,241 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon, index })
   </motion.section>
 );
 
+const BlogEntry = ({ title, date, category, excerpt, image, index }) => (
+  <motion.article
+    initial={{ opacity: 0, x: -30 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true, margin: "-10%" }}
+    transition={{
+      duration: 0.8,
+      delay: index * 0.1,
+      ease: [0.21, 0.47, 0.32, 0.98]
+    }}
+    className="grid grid-cols-12 gap-0 items-start group cursor-pointer w-full mb-24"
+  >
+    <div className="hidden md:block md:col-span-2"></div>
+
+    <div className="col-span-12 md:col-span-2 flex flex-col items-end pr-8 pt-0 text-right">
+      <span className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] text-neutral-400 mb-2">{category}</span>
+      <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-black font-medium">{date}</span>
+    </div>
+
+    <div className="col-span-12 md:col-span-6 flex flex-col gap-6">
+      <div className="aspect-[2/1] overflow-hidden bg-neutral-100 mb-6">
+        <motion.img
+          whileHover={{ scale: 1.03 }}
+          transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
+          src={image}
+          alt={title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <h2 className="font-['Inter'] font-normal uppercase tracking-[0.1em] text-[20px] md:text-[24px] leading-tight text-black max-w-2xl">
+        {title}
+      </h2>
+      <p className="font-['Inter'] text-[14px] leading-relaxed text-neutral-500 max-w-xl">
+        {excerpt}
+      </p>
+      <div className="flex items-center gap-2 mt-2 group/link">
+        <span className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-medium text-black border-b border-black pb-1">Read Perspective</span>
+        <span className="material-symbols-outlined text-[14px] transition-transform duration-300 group-hover/link:translate-x-1">arrow_forward</span>
+      </div>
+    </div>
+  </motion.article>
+);
+
+const AboutView = () => (
+  <div className="grid grid-cols-12 gap-0 pt-12 pb-32">
+    <div className="hidden md:block md:col-span-2"></div>
+
+    <div className="col-span-12 md:col-span-8 flex flex-col gap-24">
+      {/* Intro Section */}
+      <section className="flex flex-col gap-12 max-w-4xl">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
+          <div className="flex flex-col gap-8">
+            <h1 className="font-['Inter'] font-normal text-[32px] md:text-[48px] leading-[1.1] uppercase tracking-[-0.02em] text-black">
+              Tashi Dhendup <br />
+              <span className="text-neutral-400">Architectural Perspective</span>
+            </h1>
+            <p className="font-['Inter'] text-[16px] md:text-[18px] leading-relaxed text-neutral-600 max-w-2xl">
+              Currently pursuing a Bachelors in Architecture at the College of Science and Technology in Phuntsholing, Bhutan. My work focuses on the intersection of heritage, sustainability, and modern structural expression.
+              Currently contributing to the design and build of significant hospitality and monastic projects across Bhutan as an intern at Saidpiece Architects.
+            </p>
+          </div>
+          <div className="w-48 h-64 flex-shrink-0 bg-neutral-100 overflow-hidden">
+            <img src={profileImg} alt="Tashi Dhendup Portfolio" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 font-['Inter']" />
+          </div>
+        </div>
+      </section>
+
+      {/* Grid: Education & Languages */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-24">
+        {/* Education */}
+        <section className="flex flex-col gap-8">
+          <h2 className="font-['Inter'] uppercase tracking-[0.2em] text-[12px] font-medium text-black border-b border-neutral-100 pb-4">Education</h2>
+          <div className="flex flex-col gap-2">
+            <span className="font-['Inter'] text-[14px] font-semibold text-black uppercase">Bachelors in Architecture</span>
+            <span className="font-['Inter'] text-[14px] text-neutral-500 uppercase tracking-wider">College of Science and Technology</span>
+            <span className="font-['Inter'] text-[13px] text-neutral-400">Phuntsholing, Bhutan</span>
+          </div>
+        </section>
+
+        {/* Languages */}
+        <section className="flex flex-col gap-8">
+          <h2 className="font-['Inter'] uppercase tracking-[0.2em] text-[12px] font-medium text-black border-b border-neutral-100 pb-4">Languages</h2>
+          <div className="flex flex-col gap-4">
+            <div className="flex justify-between items-baseline">
+              <span className="font-['Inter'] text-[14px] uppercase tracking-wider text-black">English</span>
+              <span className="font-['Inter'] text-[11px] uppercase tracking-[0.1em] text-neutral-400 font-bold">Proficient</span>
+            </div>
+            <div className="flex justify-between items-baseline">
+              <span className="font-['Inter'] text-[14px] uppercase tracking-wider text-black">Dzongkha</span>
+              <span className="font-['Inter'] text-[11px] uppercase tracking-[0.1em] text-neutral-400 font-bold">Native</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* Experience Table */}
+      <section className="flex flex-col gap-12">
+        <h2 className="font-['Inter'] uppercase tracking-[0.2em] text-[12px] font-medium text-black border-b border-neutral-100 pb-4">Selected Experience</h2>
+        <div className="flex flex-col overflow-hidden">
+          {[
+            {
+              project: 'Yongkola ECO-Lodge',
+              location: 'Mongar, Bhutan',
+              type: 'Hospitality',
+              cost: 'Nu. 100 Million',
+              brief: 'Design and Build',
+              status: 'August 2025 – Cont’d'
+            },
+            {
+              project: 'Yangkhil Cafe',
+              location: 'Trongsa, Bhutan',
+              type: 'Commercial Building',
+              cost: 'Nu. 30 Million',
+              brief: 'Construction Drawing + Supervision',
+              status: 'June 2025 – Cont’d'
+            },
+            {
+              project: 'Yangkhil Resort Renovation',
+              location: 'Trongsa, Bhutan',
+              type: 'Interior Design',
+              cost: 'Nu. 50 Million',
+              brief: 'Conceptual + Interior Design',
+              status: 'Dec 2025 – Cont’d'
+            },
+            {
+              project: 'PHD Residence',
+              location: 'Dodena, Thimphu',
+              type: 'Monastic Building',
+              cost: 'Nu. 50 Million',
+              brief: 'Conceptual + Construction Drawing',
+              status: 'Dec 2025 – Cont’d'
+            }
+          ].map((exp, idx) => (
+            <div key={idx} className="grid grid-cols-1 md:grid-cols-12 gap-6 py-10 border-b border-neutral-50 last:border-none group">
+              <div className="col-span-1 md:col-span-4 flex flex-col gap-1">
+                <span className="font-['Inter'] text-[16px] font-medium text-black group-hover:underline underline-offset-4 decoration-1">{exp.project}</span>
+                <span className="font-['Inter'] uppercase tracking-[0.15em] text-[10px] text-neutral-400">{exp.location}</span>
+              </div>
+              <div className="col-span-1 md:col-span-3 flex flex-col gap-1">
+                <span className="font-['Inter'] text-[13px] text-neutral-600 font-medium">{exp.type}</span>
+                <span className="font-['Inter'] text-[11px] text-neutral-400 uppercase tracking-widest">{exp.cost}</span>
+              </div>
+              <div className="col-span-1 md:col-span-3">
+                <p className="font-['Inter'] text-[13px] text-neutral-500 leading-relaxed font-light">{exp.brief}</p>
+              </div>
+              <div className="col-span-1 md:col-span-2 text-right">
+                <span className="font-['Inter'] text-[11px] text-neutral-400 uppercase tracking-widest">{exp.status}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+);
+
+const ContactView = () => (
+  <div className="grid grid-cols-12 gap-0 pt-12 pb-32">
+    <div className="hidden md:block md:col-span-2"></div>
+
+    <div className="col-span-12 md:col-span-8 flex flex-col gap-24">
+      {/* Page Title */}
+      <section className="flex flex-col gap-6 max-w-2xl">
+        <h1 className="font-['Inter'] font-normal text-[32px] md:text-[48px] leading-[1.1] uppercase tracking-[-0.02em] text-black">
+          Let's collaborate <br />
+          <span className="text-neutral-400">on your next vision</span>
+        </h1>
+      </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-24">
+        {/* Contact Form */}
+        <div className="col-span-12 md:col-span-7">
+          <form className="flex flex-col gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="flex flex-col gap-2 border-b border-neutral-200 pb-2 focus-within:border-black transition-colors duration-300">
+                <label className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-medium text-neutral-400">Name</label>
+                <input type="text" placeholder="Your Name" className="bg-transparent border-none outline-none font-['Inter'] text-[14px] text-black placeholder:text-neutral-200 py-1" />
+              </div>
+              <div className="flex flex-col gap-2 border-b border-neutral-200 pb-2 focus-within:border-black transition-colors duration-300">
+                <label className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-medium text-neutral-400">Email Address</label>
+                <input type="email" placeholder="example@domain.com" className="bg-transparent border-none outline-none font-['Inter'] text-[14px] text-black placeholder:text-neutral-200 py-1" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2 border-b border-neutral-200 pb-2 focus-within:border-black transition-colors duration-300">
+              <label className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-medium text-neutral-400">Subject</label>
+              <input type="text" placeholder="Project Inquiry" className="bg-transparent border-none outline-none font-['Inter'] text-[14px] text-black placeholder:text-neutral-200 py-1" />
+            </div>
+            <div className="flex flex-col gap-2 border-b border-neutral-200 pb-2 focus-within:border-black transition-colors duration-300">
+              <label className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] font-medium text-neutral-400">Message</label>
+              <textarea rows="4" placeholder="Tell us about your project..." className="bg-transparent border-none outline-none font-['Inter'] text-[14px] text-black placeholder:text-neutral-200 py-1 resize-none" />
+            </div>
+            <button className="w-max bg-black text-white px-10 py-4 font-['Inter'] uppercase tracking-[0.2em] text-[11px] font-medium transition-transform duration-300 active:scale-95 mt-4">
+              Send Message
+            </button>
+          </form>
+        </div>
+
+        {/* Contact Info Sidebar */}
+        <div className="col-span-12 md:col-span-5 flex flex-col gap-16">
+          <section className="flex flex-col gap-10">
+            <div className="flex flex-col gap-4">
+              <h3 className="font-['Inter'] uppercase tracking-[0.2em] text-[11px] font-medium text-black border-b border-neutral-100 pb-3">New Business</h3>
+              <a href="mailto:newbiz@tashidhendup.com" className="font-['Inter'] text-[14px] text-neutral-500 hover:text-black transition-colors duration-300 underline underline-offset-4 decoration-neutral-200">newbiz@tashidhendup.com</a>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="font-['Inter'] uppercase tracking-[0.2em] text-[11px] font-medium text-black border-b border-neutral-100 pb-3">Press & Media</h3>
+              <a href="mailto:press@tashidhendup.com" className="font-['Inter'] text-[14px] text-neutral-500 hover:text-black transition-colors duration-300 underline underline-offset-4 decoration-neutral-200">press@tashidhendup.com</a>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="font-['Inter'] uppercase tracking-[0.2em] text-[11px] font-medium text-black border-b border-neutral-100 pb-3">Offices</h3>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <span className="font-['Inter'] text-[13px] font-medium text-black">Thimphu, Bhutan</span>
+                  <p className="font-['Inter'] text-[12px] text-neutral-400 leading-relaxed uppercase tracking-wider">Dodena, Thimphu</p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="font-['Inter'] text-[13px] font-medium text-black">Phuntsholing, Bhutan</span>
+                  <p className="font-['Inter'] text-[12px] text-neutral-400 leading-relaxed uppercase tracking-wider">College of Science and Tech</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="font-['Inter'] uppercase tracking-[0.2em] text-[11px] font-medium text-black border-b border-neutral-100 pb-3">Connect</h3>
+              <div className="flex gap-8">
+                <a href="#" className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-neutral-400 hover:text-black transition-colors duration-300 underline underline-offset-4 decoration-neutral-200">Instagram</a>
+                <a href="#" className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-neutral-400 hover:text-black transition-colors duration-300 underline underline-offset-4 decoration-neutral-200">LinkedIn</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const App = () => {
   const [activeCategory, setActiveCategory] = React.useState('ARCHITECTURE');
   const [activeSection, setActiveSection] = React.useState(null);
@@ -61,6 +298,11 @@ const App = () => {
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);
   };
+
+  React.useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setActiveSection(null);
+  }, [activeCategory]);
 
   const architectureProjects = [
     {
@@ -124,7 +366,50 @@ const App = () => {
     }
   ];
 
-  const projects = activeCategory === 'ARCHITECTURE' ? architectureProjects : interiorProjects;
+  const blogPosts = [
+    {
+      title: 'THE FUTURE OF SUSTAINABLE OFFICE DESIGN',
+      date: 'MAR 24, 2026',
+      category: 'STUDIO',
+      image: img1,
+      excerpt: 'Exploring how integrated ecosystems and biophilic elements are transforming modern workspaces into carbon-negative environments.'
+    },
+    {
+      title: 'MATERIALITY: BEYOND THE SURFACE',
+      date: 'FEB 12, 2026',
+      category: 'RESEARCH',
+      image: int3,
+      excerpt: 'A deep dive into the tactile qualities of timber and stone, and how they define the emotional resonance of a space.'
+    },
+    {
+      title: 'URBAN RESILIENCY IN COASTAL CITIES',
+      date: 'JAN 28, 2026',
+      category: 'FIELD NOTES',
+      image: img2,
+      excerpt: 'Observations from our recent site visits to New York, examining how architecture can respond to rising sea levels.'
+    }
+  ];
+
+  const renderContent = () => {
+    if (activeCategory === 'CONTACT') {
+      return <ContactView />;
+    }
+
+    if (activeCategory === 'ABOUT') {
+      return <AboutView />;
+    }
+
+    if (activeCategory === 'BLOG') {
+      return blogPosts.map((post, index) => (
+        <BlogEntry key={index} index={index} {...post} />
+      ));
+    }
+
+    const projects = activeCategory === 'ARCHITECTURE' ? architectureProjects : interiorProjects;
+    return projects.map((project, index) => (
+      <ProjectEntry key={`${activeCategory}-${index}`} index={index} {...project} />
+    ));
+  };
 
   return (
     <div className="bg-white min-h-screen">
@@ -144,9 +429,24 @@ const App = () => {
           >
             INTERIORS
           </a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">BLOG</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">ABOUT</a>
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">CONTACT ME</a>
+          <a
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'BLOG' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => setActiveCategory('BLOG')}
+          >
+            BLOG
+          </a>
+          <a
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ABOUT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => setActiveCategory('ABOUT')}
+          >
+            ABOUT
+          </a>
+          <a
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'CONTACT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => setActiveCategory('CONTACT')}
+          >
+            CONTACT ME
+          </a>
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-neutral-500 cursor-pointer text-[20px] font-light">search</span>
@@ -162,14 +462,12 @@ const App = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
-            transition={{ 
-              duration: 0.5, 
-              ease: [0.22, 1, 0.36, 1] 
+            transition={{
+              duration: 0.5,
+              ease: [0.22, 1, 0.36, 1]
             }}
           >
-            {projects.map((project, index) => (
-              <ProjectEntry key={`${activeCategory}-${index}`} index={index} {...project} />
-            ))}
+            {renderContent()}
           </motion.div>
         </AnimatePresence>
       </main>
