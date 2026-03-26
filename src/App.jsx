@@ -16,7 +16,7 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon }) => (
         {icon ? (
           <span className="material-symbols-outlined text-white text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
         ) : (
-          <span className="font-black text-[18px] font-['Inter']">{initial}</span>
+          <span className="font-normal text-[18px] font-['Inter']">{initial}</span>
         )}
       </div>
       <h2 className="font-normal uppercase tracking-[0.1em] text-[12px] leading-[1.3] text-right max-w-[160px]">{title}</h2>
@@ -39,6 +39,12 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon }) => (
 );
 
 const App = () => {
+  const [activeSection, setActiveSection] = React.useState(null);
+
+  const toggleSection = (section) => {
+    setActiveSection(activeSection === section ? null : section);
+  };
+
   const projects = [
     {
       icon: 'layers',
@@ -74,9 +80,9 @@ const App = () => {
     <div className="bg-white min-h-screen">
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-16 py-8">
-        <div className="text-4xl font-black tracking-tighter text-black select-none">BIG</div>
+        <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black select-none">Tashi Dhendup</div>
         <div className="hidden lg:flex gap-14 items-center">
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black border-b border-black pb-1 active" href="#">ARCHITECTURE</a>
+          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black border-b border-black pb-1 active" href="#">ARCH</a>
           <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">INTERIORS</a>
           <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">LANDSCAPE</a>
           <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300" href="#">PLANNING</a>
@@ -84,12 +90,12 @@ const App = () => {
         </div>
         <div className="flex items-center gap-2">
           <span className="material-symbols-outlined text-neutral-500 cursor-pointer text-[20px] font-light">search</span>
-          <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-neutral-400 cursor-pointer hover:text-black transition-colors duration-300">MUSEUM</span>
+          <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-neutral-400 cursor-pointer hover:text-black transition-colors duration-300">SEARCH</span>
         </div>
       </nav>
 
       {/* Main Content Canvas */}
-      <main className="pt-48 px-16 pb-24 max-w-[1920px] mx-auto">
+      <main className="pt-28 px-16 pb-24 max-w-[1920px] mx-auto">
         {projects.map((project, index) => (
           <ProjectEntry key={index} {...project} />
         ))}
@@ -98,25 +104,105 @@ const App = () => {
       {/* Footer */}
       <footer className="w-full py-24 px-6 md:px-12 bg-white flex flex-col gap-16 border-t border-neutral-100">
         <div className="flex justify-center w-full mb-8">
-          <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:text-black transition-colors duration-300" href="#">BACK TO TOP</a>
+          <a
+            className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:text-black transition-colors duration-300 cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            BACK TO TOP
+          </a>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="flex flex-col gap-4">
-            <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:underline decoration-1 underline-offset-4" href="#">EMAIL +</a>
+        <div className="flex flex-wrap justify-center gap-[4.5cm] items-start text-center">
+          {/* EMAIL */}
+          <div className="relative flex flex-col items-start">
+            <a
+              className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300 select-none cursor-pointer pb-2"
+              onClick={() => toggleSection('email')}
+            >
+              EMAIL {activeSection === 'email' ? '–' : '+'}
+            </a>
+            {activeSection === 'email' && (
+              <div className="absolute top-10 left-0 flex flex-col gap-6 transition-all duration-500 ease-in-out opacity-100 animate-in fade-in slide-in-from-top-4 w-max z-10 bg-white">
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">NEW PROJECTS</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="mailto:newbiz@tashidhendup.com">newbiz@tashidhendup.com</a>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">PRESS</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="mailto:press@tashidhendup.com">press@tashidhendup.com</a>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col gap-4">
-            <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:underline decoration-1 underline-offset-4" href="#">OFFICE +</a>
+
+          {/* OFFICE */}
+          <div className="relative flex flex-col items-start">
+            <a
+              className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300 select-none cursor-pointer pb-2"
+              onClick={() => toggleSection('office')}
+            >
+              OFFICE {activeSection === 'office' ? '–' : '+'}
+            </a>
+            {activeSection === 'office' && (
+              <div className="absolute top-10 left-0 flex flex-col gap-6 transition-all duration-500 ease-in-out opacity-100 animate-in fade-in slide-in-from-top-4 w-max z-10 bg-white">
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">THIMPHU</span>
+                  <span className="font-['Inter'] text-[11px] font-normal text-black uppercase tracking-[0.05em]">Dodena, Thimphu</span>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">PHUNTSHOLING</span>
+                  <span className="font-['Inter'] text-[11px] font-normal text-black uppercase tracking-[0.05em]">CST, Bhutan</span>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col gap-4">
-            <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:underline decoration-1 underline-offset-4" href="#">SOCIAL +</a>
+
+          {/* SOCIAL */}
+          <div className="relative flex flex-col items-start">
+            <a
+              className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300 select-none cursor-pointer pb-2"
+              onClick={() => toggleSection('social')}
+            >
+              SOCIAL {activeSection === 'social' ? '–' : '+'}
+            </a>
+            {activeSection === 'social' && (
+              <div className="absolute top-10 left-0 flex flex-col gap-6 transition-all duration-500 ease-in-out opacity-100 animate-in fade-in slide-in-from-top-4 w-max z-10 bg-white">
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">INSTAGRAM</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="#">@tashi_dhendup</a>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">LINKEDIN</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="#">Tashi Dhendup</a>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col gap-4">
-            <a className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-500 hover:underline decoration-1 underline-offset-4" href="#">LEGAL +</a>
+
+          {/* LEGAL */}
+          <div className="relative flex flex-col items-start">
+            <a
+              className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400 hover:text-black transition-colors duration-300 select-none cursor-pointer pb-2"
+              onClick={() => toggleSection('legal')}
+            >
+              LEGAL {activeSection === 'legal' ? '–' : '+'}
+            </a>
+            {activeSection === 'legal' && (
+              <div className="absolute top-10 left-0 flex flex-col gap-6 transition-all duration-500 ease-in-out opacity-100 animate-in fade-in slide-in-from-top-4 w-max z-10 bg-white">
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">PRIVACY</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="#">Privacy Policy</a>
+                </div>
+                <div className="grid grid-cols-[1fr_auto] gap-x-16 text-left items-baseline">
+                  <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-black">TERMS</span>
+                  <a className="font-['Inter'] text-[11px] font-normal text-black hover:underline underline decoration-1 underline-offset-4" href="#">Terms of Use</a>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-        <div className="mt-24 flex flex-col items-start gap-4">
-          <div className="text-4xl font-black tracking-tighter text-black">BIG</div>
-          <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400">© 2024 BJARKE INGELS GROUP</div>
+        <div className="mt-48 flex flex-col items-center gap-4 text-center">
+          <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black">Tashi Dhendup</div>
+          <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-neutral-400">© 2024 TASHI DHENDUP</div>
         </div>
       </footer>
     </div>
