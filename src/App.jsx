@@ -291,10 +291,68 @@ const ContactView = () => (
   </div>
 );
 
+const LoadingScreen = () => {
+  const characters = "TASHI".split("");
+  
+  return (
+    <motion.div
+      initial={{ opacity: 1, scale: 1 }}
+      exit={{ 
+        opacity: 0,
+        scale: 1.1,
+        transition: { 
+          duration: 1.5, 
+          ease: [0.43, 0.13, 0.23, 0.96] 
+        }
+      }}
+      className="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center overflow-hidden"
+    >
+      <motion.div 
+        className="flex flex-col items-center gap-12 relative"
+      >
+        <div className="flex overflow-hidden">
+          {characters.map((char, index) => (
+            <motion.span
+              key={index}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{
+                duration: 2,
+                delay: index * 0.1,
+                ease: [0.215, 0.61, 0.355, 1]
+              }}
+              className="font-['Inter'] text-white text-[48px] md:text-[84px] uppercase tracking-[0.6em] font-light inline-block leading-tight"
+            >
+              {char}
+            </motion.span>
+          ))}
+        </div>
+        
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 2, delay: 0.8, ease: "circOut" }}
+          className="w-48 h-[1px] bg-white/10 origin-center"
+        />
+        
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 1.5 }}
+          className="font-['Inter'] text-white/20 text-[10px] uppercase tracking-[0.8em] font-medium w-full text-center"
+        >
+          Architectural Portfolio
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 const App = () => {
   const [activeCategory, setActiveCategory] = React.useState('ARCHITECTURE');
   const [activeSection, setActiveSection] = React.useState(null);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
@@ -308,12 +366,19 @@ const App = () => {
   };
 
   React.useEffect(() => {
-    if (isMenuOpen) {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  React.useEffect(() => {
+    if (isMenuOpen || isLoading) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'auto';
     }
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isLoading]);
 
   const architectureProjects = [
     {
@@ -423,7 +488,11 @@ const App = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <>
+      <AnimatePresence>
+        {isLoading && <LoadingScreen key="loader" />}
+      </AnimatePresence>
+      <div className="bg-white min-h-screen">
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-8 md:px-16 py-5 md:py-8 border-b border-neutral-50/50">
         <div 
@@ -650,6 +719,7 @@ const App = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 
