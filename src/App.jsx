@@ -310,7 +310,7 @@ const LoadingScreen = () => {
       <motion.div 
         className="flex flex-col items-center gap-12 relative"
       >
-        <div className="flex overflow-hidden">
+        <div className="flex overflow-hidden pl-[0.25em] md:pl-[0.3em]">
           {characters.map((char, index) => (
             <motion.span
               key={index}
@@ -321,7 +321,7 @@ const LoadingScreen = () => {
                 delay: index * 0.1,
                 ease: [0.215, 0.61, 0.355, 1]
               }}
-              className="font-['Inter'] text-white text-[48px] md:text-[84px] uppercase tracking-[0.6em] font-light inline-block leading-tight"
+              className="font-['Inter'] text-white text-[32px] md:text-[84px] uppercase tracking-[0.5em] md:tracking-[0.6em] font-light inline-block leading-tight"
             >
               {char}
             </motion.span>
@@ -332,14 +332,14 @@ const LoadingScreen = () => {
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
           transition={{ duration: 2, delay: 0.8, ease: "circOut" }}
-          className="w-48 h-[1px] bg-white/10 origin-center"
+          className="w-32 md:w-48 h-[1px] bg-white/10 origin-center"
         />
         
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.5, duration: 1.5 }}
-          className="font-['Inter'] text-white/20 text-[10px] uppercase tracking-[0.8em] font-medium w-full text-center"
+          className="font-['Inter'] text-white/20 text-[8px] md:text-[10px] uppercase tracking-[0.4em] md:tracking-[0.8em] font-medium w-full text-center"
         >
           Architectural Portfolio
         </motion.div>
