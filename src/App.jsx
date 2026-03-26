@@ -426,7 +426,12 @@ const App = () => {
     <div className="bg-white min-h-screen">
       {/* Top Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-8 md:px-16 py-5 md:py-8 border-b border-neutral-50/50">
-        <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium text-black select-none">Tashi Dhendup</div>
+        <div 
+          className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium text-black select-none cursor-pointer"
+          onClick={() => handleCategoryChange('ARCHITECTURE')}
+        >
+          Tashi Dhendup
+        </div>
         <div className="hidden lg:flex gap-14 items-center">
           <a
             className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ARCHITECTURE' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
