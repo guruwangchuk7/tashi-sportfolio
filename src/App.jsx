@@ -15,7 +15,7 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon, index })
   <motion.section
     initial={{ opacity: 0, x: -30 }}
     whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true, margin: "-10%" }}
+    viewport={{ once: true, margin: "-5%" }}
     transition={{
       duration: 0.8,
       delay: index * 0.1,
@@ -26,17 +26,17 @@ const ProjectEntry = ({ initial, title, location, image, altText, icon, index })
     {/* Left margin indentation */}
     <div className="hidden md:block md:col-span-2"></div>
 
-    {/* Metadata column - right-aligned to the image gutter */}
-    <div className="col-span-12 md:col-span-2 flex flex-col items-end pr-6 pt-0">
-      <div className="w-10 h-10 bg-black flex items-center justify-center text-white mb-6">
+    {/* Metadata column - right-aligned to the image gutter on desktop, left on mobile */}
+    <div className="col-span-12 md:col-span-2 flex flex-col items-start md:items-end pr-0 md:pr-6 pt-0 mb-6 md:mb-0">
+      <div className="w-10 h-10 bg-black flex items-center justify-center text-white mb-4 md:mb-6">
         {icon ? (
           <span className="material-symbols-outlined text-white text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
         ) : (
           <span className="font-normal text-[18px] font-['Inter']">{initial}</span>
         )}
       </div>
-      <h2 className="font-normal uppercase tracking-[0.1em] text-[12px] leading-[1.3] text-right max-w-[160px]">{title}</h2>
-      <p className="text-neutral-400 uppercase tracking-[0.15em] text-[10px] mt-2 font-normal text-right">{location}</p>
+      <h2 className="font-normal uppercase tracking-[0.1em] text-[12px] leading-[1.3] text-left md:text-right max-w-[200px] md:max-w-[160px]">{title}</h2>
+      <p className="text-neutral-400 uppercase tracking-[0.15em] text-[10px] mt-2 font-normal text-left md:text-right">{location}</p>
     </div>
 
     {/* Image column - 4 columns wide */}
@@ -60,7 +60,7 @@ const BlogEntry = ({ title, date, category, excerpt, image, index }) => (
   <motion.article
     initial={{ opacity: 0, x: -30 }}
     whileInView={{ opacity: 1, x: 0 }}
-    viewport={{ once: true, margin: "-10%" }}
+    viewport={{ once: true, margin: "-5%" }}
     transition={{
       duration: 0.8,
       delay: index * 0.1,
@@ -70,7 +70,7 @@ const BlogEntry = ({ title, date, category, excerpt, image, index }) => (
   >
     <div className="hidden md:block md:col-span-2"></div>
 
-    <div className="col-span-12 md:col-span-2 flex flex-col items-end pr-8 pt-0 text-right">
+    <div className="col-span-12 md:col-span-2 flex flex-col items-start md:items-end pr-0 md:pr-8 pt-0 text-left md:text-right mb-6 md:mb-0">
       <span className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] text-neutral-400 mb-2">{category}</span>
       <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-black font-medium">{date}</span>
     </div>
@@ -112,12 +112,12 @@ const AboutView = () => (
               Tashi Dhendup <br />
               <span className="text-neutral-400">Architectural Perspective</span>
             </h1>
-            <p className="font-['Inter'] text-[16px] md:text-[18px] leading-relaxed text-neutral-600 max-w-2xl">
+            <p className="font-['Inter'] text-[15px] md:text-[18px] leading-relaxed text-neutral-600 max-w-2xl px-2 md:px-0">
               Currently pursuing a Bachelors in Architecture at the College of Science and Technology in Phuntsholing, Bhutan. My work focuses on the intersection of heritage, sustainability, and modern structural expression.
               Currently contributing to the design and build of significant hospitality and monastic projects across Bhutan as an intern at Saidpiece Architects.
             </p>
           </div>
-          <div className="w-48 h-64 flex-shrink-0 bg-neutral-100 overflow-hidden">
+          <div className="w-full md:w-48 h-80 md:h-64 flex-shrink-0 bg-neutral-100 overflow-hidden">
             <img src={profileImg} alt="Tashi Dhendup Portfolio" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 font-['Inter']" />
           </div>
         </div>
@@ -201,7 +201,7 @@ const AboutView = () => (
               <div className="col-span-1 md:col-span-3">
                 <p className="font-['Inter'] text-[13px] text-neutral-500 leading-relaxed font-light">{exp.brief}</p>
               </div>
-              <div className="col-span-1 md:col-span-2 text-right">
+              <div className="col-span-1 md:col-span-2 text-left md:text-right">
                 <span className="font-['Inter'] text-[11px] text-neutral-400 uppercase tracking-widest">{exp.status}</span>
               </div>
             </div>
@@ -294,15 +294,26 @@ const ContactView = () => (
 const App = () => {
   const [activeCategory, setActiveCategory] = React.useState('ARCHITECTURE');
   const [activeSection, setActiveSection] = React.useState(null);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+
+  const handleCategoryChange = (category) => {
+    setActiveCategory(category);
+    setIsMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setActiveSection(null);
+  };
 
   const toggleSection = (section) => {
     setActiveSection(activeSection === section ? null : section);
   };
 
   React.useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    setActiveSection(null);
-  }, [activeCategory]);
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isMenuOpen]);
 
   const architectureProjects = [
     {
@@ -414,48 +425,105 @@ const App = () => {
   return (
     <div className="bg-white min-h-screen">
       {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-16 py-8">
-        <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal text-black select-none">Tashi Dhendup</div>
+      <nav className="fixed top-0 w-full z-50 bg-white tonal-shift-via-opacity flex justify-between items-center px-8 md:px-16 py-5 md:py-8 border-b border-neutral-50/50">
+        <div className="font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium text-black select-none">Tashi Dhendup</div>
         <div className="hidden lg:flex gap-14 items-center">
           <a
-            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ARCHITECTURE' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
-            onClick={() => setActiveCategory('ARCHITECTURE')}
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ARCHITECTURE' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => handleCategoryChange('ARCHITECTURE')}
           >
             ARCHITECTURE
           </a>
           <a
-            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'INTERIORS' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
-            onClick={() => setActiveCategory('INTERIORS')}
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'INTERIORS' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => handleCategoryChange('INTERIORS')}
           >
             INTERIORS
           </a>
           <a
-            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'BLOG' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
-            onClick={() => setActiveCategory('BLOG')}
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'BLOG' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => handleCategoryChange('BLOG')}
           >
             BLOG
           </a>
           <a
-            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ABOUT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
-            onClick={() => setActiveCategory('ABOUT')}
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'ABOUT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => handleCategoryChange('ABOUT')}
           >
             ABOUT
           </a>
           <a
-            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-normal cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'CONTACT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
-            onClick={() => setActiveCategory('CONTACT')}
+            className={`font-['Inter'] uppercase tracking-[0.15em] text-[12px] font-medium cursor-pointer pb-1 transition-all duration-300 ${activeCategory === 'CONTACT' ? 'text-black border-b border-black' : 'text-neutral-400 hover:text-black'}`}
+            onClick={() => handleCategoryChange('CONTACT')}
           >
             CONTACT ME
           </a>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-neutral-500 cursor-pointer text-[20px] font-light">search</span>
-          <span className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-neutral-400 cursor-pointer hover:text-black transition-colors duration-300">SEARCH</span>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-black cursor-pointer text-[20px] font-light">search</span>
+            <span className="hidden sm:inline font-['Inter'] uppercase tracking-[0.15em] text-[11px] font-normal text-neutral-400 cursor-pointer hover:text-black transition-colors duration-300">SEARCH</span>
+          </div>
+          <button
+            className="lg:hidden p-2 text-black transition-colors"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <span className="material-symbols-outlined text-[24px]">
+              {isMenuOpen ? 'close' : 'menu'}
+            </span>
+          </button>
         </div>
+
       </nav>
+      
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ y: '-100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '-100%' }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 top-[52px] bg-white z-[40] px-8 py-12 flex flex-col gap-8 lg:hidden overflow-y-auto"
+          >
+            <div className="flex flex-col gap-8 pt-4">
+              {['ARCHITECTURE', 'INTERIORS', 'BLOG', 'ABOUT', 'CONTACT'].map((cat, i) => (
+                <motion.a
+                  key={cat}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 + (i * 0.05), duration: 0.4 }}
+                  className={`font-['Inter'] uppercase tracking-[0.25em] text-[18px] font-medium cursor-pointer transition-all duration-300 w-max ${activeCategory === cat ? 'text-black' : 'text-neutral-400'}`}
+                  onClick={() => handleCategoryChange(cat)}
+                >
+                  {cat === 'CONTACT' ? 'CONTACT ME' : cat}
+                </motion.a>
+              ))}
+            </div>
+            
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="mt-auto border-t border-neutral-100 pt-12 pb-8 flex flex-col gap-6"
+            >
+              <div className="flex flex-col gap-2">
+                <span className="font-['Inter'] uppercase tracking-[0.2em] text-[10px] text-neutral-400 font-bold">New Projects</span>
+                <a href="mailto:newbiz@tashidhendup.com" className="font-['Inter'] text-[15px] text-black font-medium">newbiz@tashidhendup.com</a>
+              </div>
+              <div className="flex justify-between items-center mt-4">
+                <div className="flex gap-8">
+                  <a href="#" className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-neutral-500 font-medium hover:text-black transition-colors">Instagram</a>
+                  <a href="#" className="font-['Inter'] uppercase tracking-[0.15em] text-[11px] text-neutral-500 font-medium hover:text-black transition-colors">LinkedIn</a>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content Canvas */}
-      <main className="pt-28 px-16 pb-24 max-w-[1920px] mx-auto min-h-[60vh]">
+      <main className="pt-28 md:pt-32 px-6 md:px-16 pb-24 max-w-[1920px] mx-auto min-h-[60vh]">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeCategory}
@@ -482,7 +550,7 @@ const App = () => {
             BACK TO TOP
           </a>
         </div>
-        <div className="flex flex-wrap justify-center gap-[4.5cm] items-start text-center">
+        <div className="flex flex-wrap justify-center gap-12 md:gap-[4.5cm] items-start text-center">
           {/* EMAIL */}
           <div className="relative flex flex-col items-start">
             <a
